@@ -27,7 +27,7 @@ var viewed=0,count=0;
 var dis="disabled",dis1="disable";
 
 
-mongoose.connect("mongodb://localhost:27017/cartDB",{useUnifiedTopology:true,useNewUrlParser:true})
+mongoose.connect("mongodb+srv://"+ process.env.NAME +":"+ process.env.PASSWORD+"@cluster0.lvknf.mongodb.net/cartDB",{useUnifiedTopology:true,useNewUrlParser:true})
 
 
 const cartSchema=new mongoose.Schema({
@@ -283,7 +283,7 @@ app.post("/pay",function(request,response){
 
 
 
-app.listen(3000,function(req,res)
+app.listen(process.env.PORT||3000,function(req,res)
 {
     console.log("Server running on port 3000");
 })
