@@ -144,7 +144,7 @@ app.post("/next",function(req,res)
  
 app.post("/prev",function(req,res)
 {
-    i++;
+    
     viewed=viewed-48;
     if(viewed>=0)
     {
