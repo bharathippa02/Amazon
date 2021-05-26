@@ -1,0 +1,98 @@
+body{
+    text-align: center;
+    background-color: #dbf6e9;
+    line-height: 1;
+}
+
+
+#lblCartCount {
+    font-size: 12px;
+    background: #ff0000;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -10px;
+}
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+  color: #fff;
+}
+
+.btn{
+    margin-left: 5%;
+}
+
+.details{
+    display: inline-block;
+    margin: 1%;
+}
+.cart{
+    display: inline-block;
+    margin: 1%;
+}
+
+img{
+   height: 400px;
+   width: 300px;
+}
+
+.productinfo{
+    text-align: center;
+}
+
+.firstdiv{
+    text-align: center;
+    margin-left: 1%;
+    padding: 2%;
+    display: inline-block;
+    
+}
+.prev{
+    text-align: left;
+    display: inline-block;
+}
+
+.next{
+    text-align: right;
+    display: inline-block;
+}
+
+.forms{
+    text-align: center;
+    padding: 5%;
+    
+}
+
+.bottom{
+    padding: 5%;
+    background-color:#343a40;
+    color: white;
+}
+
+
+.cartImage{
+   
+    display: inline-block;
+}
+
+.cartImage1{
+    height: 200px;
+    width: 200px;
+}
+
+.col-6{
+    padding: 3%;
+}
+
+.row{
+    line-height: 1.5;
+}
+
+.cartInfo{
+    width:400px;
+    display: inline-block;
+}

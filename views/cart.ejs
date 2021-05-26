@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+<h1>Cart</h1>
+
+<div>
+    <%var sum=0; %>
+       <% foundItem.forEach(p => { %>
+
+        <%    info.forEach(element => { %>
+        
+       <%        if(element.id==p.id){ %>
+        <div class="row">
+        <div class="cartImage col-6">
+
+            <img class="cartImage1" src="https://<%=  element.imageUrl %>">
+        </div>
+        <div class="cartInfo col-6">
+
+            <form id="search" action="/product" method="post">
+                <input class="hidden" type="text" name="productName" value="<%=  element.id  %>" style="display: none;">
+                <a href="#" onclick="document.getElementById('search').submit();"><%=  element.name %></a>
+           </form>
+
+            <p> ID: <%=  element.id  %></p>
+            <p> Price: <%=  element.price.current.value*70 %></p>
+            <p> Brandname : <%= element.brandName %></p>
+            <p>  ProductCode:  <%=  element.productCode %></p>
+
+            <form action="/delete" method="post">
+                <button class="btn btn-secondary" type="submit" name="productId" value="<%=  element.id  %>" >Delete</button>
+            </form>
+        </div>
+    </div>
+        
+              
+                        <% sum+= element.price.current.value %>
+                          
+          <% } %>
+                
+           <%  }); %>
+                
+           <% }); %>
+<h4> Total price: <%=sum*70 %></h4>
+</div>
+<div>
+   <form action="/pay" method="post">
+     <button class="btn btn-secondary" type="submit" name="amount" value="<%= sum*70 %>">Buy now</button>
+    </form>    
+
+</div>
+
+
+
+<%- include('partials/footer') %>
