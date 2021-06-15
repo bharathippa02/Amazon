@@ -29,6 +29,12 @@ app.set('view engine','ejs');
 
 app.use(express.static("public"));
 
+app.use(function(req, res, next) {
+  console.log(typeof req.next);
+
+  next();
+});
+
 var info;
 
 const pro=new Set();
@@ -59,13 +65,16 @@ app.use(passport.initialize());
 
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/UsersDB", {useNewUrlParser:true, useUnifiedTopology:true});
+mongoose.connect("mongodb+srv://"+ process.env.NAME +":"+ process.env.PASSWORD+"@cluster0.lvknf.mongodb.net/UsersDB", {useNewUrlParser:true, useUnifiedTopology:true});
 
 mongoose.set("useCreateIndex",true);
 
+
+
 const userSchema=new mongoose.Schema({
-    email:String,
-    password:String,
+    
+    email:{ type: String, index:true, unique:true,sparse:true},
+    password:{ type: String, index:true, unique:true,sparse:true},
     googleId:String,
     cart:Array
 });
@@ -291,7 +300,7 @@ app.post("/product",function(req,res)
         if(element.id==productname)
         {
             console.log(element.id);
-            res.render("product",{info:info.products,productName:productname });
+            res.render("products",{element:element});
         }
     });
 });
@@ -343,17 +352,6 @@ app.post("/prev",function(req,res)
 
 app.get("/cart",function(req,res){
 
-  /*Cart.find({},function(err,foundItem)
-  {
-      if(err){
-          console.log(err);
-      }
-      else
-      {
-        res.render("cart",{info:info.products,foundItem:foundItem});   
-      }
-  })*/
-
   User.findById(req.user._id,function(err,foundUser)
   {
       if(err){
@@ -363,12 +361,51 @@ app.get("/cart",function(req,res){
       {
           if(foundUser)
           {
-           res.render("cart",{info:[...pro],foundItem:foundUser.cart}); 
+           
+           const personsCart=new Array();
+            console.log(foundUser.cart);
+            
+            foundUser.cart.forEach(p => {
+
+              console.log(p);
+              
+            
+              personsCart.push(new Promise(function(resolve,reject)
+              {
+                const options = {
+                  method: 'GET',
+                  url: 'https://asos2.p.rapidapi.com/products/v3/detail',
+                  qs: {id: p , lang: 'en-US', store: 'US', sizeSchema: 'US', currency: 'USD'},
+                  headers: {
+                    'x-rapidapi-key':process.env.API_KEY ,
+                    'x-rapidapi-host': 'asos2.p.rapidapi.com',
+                    useQueryString: true
+                  }
+                };
+                
+                request(options, function(error, response, body) {
+                  if (error) throw reject(error);
+  
+                 resolve(JSON.parse(body));
+                 
+                });
+              }))
+              
+              //res.render("cart");
+              
+          
+            });
+            Promise.all(personsCart).then(function(results) {
+              res.render("cart",{elements:results})
+             // res.send(results);
+          });
+          
           }
       }
   })
+});
 
-})
+
 
 app.post("/cart",function(req,res){
 
@@ -409,6 +446,37 @@ app.post("/cart",function(req,res){
     
 
     
+})
+
+
+
+
+app.post("/cartproduct",function(req,res)
+{
+  const p_id=req.body.productId;
+  console.log(p_id);
+
+  const options = {
+    method: 'GET',
+    url: 'https://asos2.p.rapidapi.com/products/v3/detail',
+    qs: {id: p_id , lang: 'en-US', store: 'US', sizeSchema: 'US', currency: 'USD'},
+    headers: {
+      'x-rapidapi-key':process.env.API_KEY ,
+      'x-rapidapi-host': 'asos2.p.rapidapi.com',
+      useQueryString: true
+    }
+  };
+  
+  request(options, function(error, response, body) {
+    if (error) throw new Error(error);
+     
+    var information=JSON.parse(body)
+    
+      res.render("product",{element:information});
+    
+
+  })
+
 })
 
 

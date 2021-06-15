@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+
+
+<div>
+   <% var sum=0 %>
+   
+    <form action="/pay" method="post">
+        
+  
+              <img  src="https://<%=  element.imageUrl %>">
+             
+              <h3><%=  element.name %></h3>
+              
+              <p> ID: <%=  element.id  %></p>
+              <p> Price: <%=  element.price.current.value*70 %></p>
+              <p> Brandname : <%= element.brandName %></p>
+              <p>  ProductCode:  <%=  element.productCode %></p>
+
+          
+                
+            <% sum+= element.price.current.value %>
+                  
+            
+                
+     
+        <button class="btn btn-secondary" type="submit" name="amount" value="<%= sum*70 %>">Buy now</button>
+     </form>
+     
+    
+
+</div>
+
+
+
+<%- include('partials/footer') %>

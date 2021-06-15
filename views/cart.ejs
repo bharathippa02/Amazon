@@ -3,26 +3,25 @@
 
 <div>
     <%var sum=0; %>
-       <% foundItem.forEach(p => { %>
 
-        <%    info.forEach(element => { %>
-        
-       <%        if(element.id==p){ %>
+   <% elements.forEach(element =>{ %>
+
+       
         <div class="row">
         <div class="cartImage col-6">
 
-            <img class="cartImage1" src="https://<%=  element.imageUrl %>">
+            <img class="cartImage1" src="https://<%=  element.media.images[0].url %>">
         </div>
         <div class="cartInfo col-6">
 
-            <form id="search" action="/product" method="post">
-                <input class="hidden" type="text" name="productName" value="<%=  element.id  %>" style="display: none;">
+            <form id="search" action="/cartproduct" method="post">
+                <input class="hidden" type="text" name="productId" value="<%=  element.id  %>" style="display: none;">
                 <a href="#" onclick="document.getElementById('search').submit();"><%=  element.name %></a>
            </form>
 
             <p> ID: <%=  element.id  %></p>
             <p> Price: <%=  element.price.current.value*70 %></p>
-            <p> Brandname : <%= element.brandName %></p>
+            <p> Brandname : <%= element.brand.name %></p>
             <p>  ProductCode:  <%=  element.productCode %></p>
 
             <form action="/delete" method="post">
@@ -30,15 +29,12 @@
             </form>
         </div>
     </div>
-        
+      <% sum+=element.price.current.value %>  
+    <% }) %>
               
-                        <% sum+= element.price.current.value %>
+                       
                           
-          <% } %>
-                
-           <%  }); %>
-                
-           <% }); %>
+         
 <h4> Total price: <%=sum*70 %></h4>
 </div>
 <div>
